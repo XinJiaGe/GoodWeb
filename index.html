@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script>
+        $.ajax({
+            type: "GET",
+            url: "http://lovegood.zicp.vip/good/AppUpdate",
+            dataType:'jsonp',
+			jsonp:"callbackparam",//前后台要保持一致
+			jsonpCallback:"entity",    
+            success: function (data) {
+				var d = data.data;
+				document.getElementById("h1").innerHTML= d.title;
+				document.getElementById("h2").innerHTML= "版本号 "+d.version;
+				document.getElementById("h3").innerHTML= d.content;
+				document.getElementById("a").href = d.url;
+            }
+        });
+		function down(){
+			
+		}
+    </script>
+  <title>首页</title>
+ </head>
+ <body>
+ 	<h3 id="h1"></h3>
+ 	<h3 id="h2"></h3>
+ 	<h3 id="h3"></h3>
+	<a id="a" href=""><button>立即下载</button></a>
+ </body>
+</html>
