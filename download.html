@@ -3,17 +3,13 @@
  <head>
   <meta http-equiv="Access-Control-Allow-Origin" content="*" />
   <meta charset="UTF-8">
-  <meta name="Generator" content="EditPlus®">
-  <meta name="Author" content="">
-  <meta name="Keywords" content="">
-  <meta name="Description" content="">
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script>
         $.ajax({
             type: "GET",
             url: "http://lovegood.zicp.vip/good/AppUpdate",
             dataType:'jsonp',
-			jsonp:"callbackparam",//前后台要保持一致
+			jsonp:"callbackparam",
 			jsonpCallback:"entity",    
             success: function (data) {
 				var d = data.data;
@@ -24,7 +20,7 @@
             }
         });
     </script>
-  <title>首页</title>
+  <title>下载</title>
  </head>
  <body>
  	<h3 id="h1"></h3>
