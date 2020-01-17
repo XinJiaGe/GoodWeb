@@ -1,0 +1,16 @@
+.image{
+     text-align:center;
+     width:100%;
+     overflow: hidden;
+}
+.text{
+	text-align: center;
+}
+.tabTypeItem{
+	margin-left: 20px;
+}
+.contentCenter{
+	float: left;
+	width: 10%;
+	padding: 20px;
+}

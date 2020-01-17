@@ -4,31 +4,29 @@
 	<meta http-equiv="Access-Control-Allow-Origin" content="*" />
 	<meta charset="utf-8">
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/mystyle.css">
-	<script src="script/myScript.js"></script>
+	<script src="script/init.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<script src="script/index.js"></script>
 	<title>首页</title>
 </head>
 
-<body>
-	<table width="100%">
+<body onLoad="init()">
+	<table width="100%" height="100%" border="1">
 	  <tbody>
 		<tr>
-		  <td>&nbsp;</td>
+		  <td>
+			<div style="text-align:right" id="msg"></div>
+			</td>
 		</tr>
 		<tr>
 		  <td>
-			<table>
-			  <tbody>
-				<tr>
-				  <td>
-					<div id="tab" align="justify"></div>
-					</td>
-				  <td>
-					<table id="content"></table>
-					</td>
-				</tr>
-			  </tbody>
-			</table>
+			<div id="tab"></div>
+			</td>
+		</tr>
+		<tr>
+		  <td>
+			<div id="content"></div>
+			<div style="visibility:hidden;" id="pageDiv"><a href="#" style="visibility:hidden;" onClick="topPage()">上一页</a> <a href="#" onClick="nextPage()">下一页</a> </div>
 			</td>
 		</tr>
 		<tr>

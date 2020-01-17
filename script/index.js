@@ -1,10 +1,14 @@
-$.ajax({
+var mAccount="";
+var mJ="0";
+
+jq.ajax({
 	type: "POST",
 	url: "http://lovegood.zicp.vip/good/SelectCategory",
 	data: param={
 		tabId: "0",
 		isTab: "1",
-		j:"0"
+		j:mJ,
+		account:mAccount
 	},
 	dataType:'json',    
 	success: function (entity) {
@@ -19,14 +23,24 @@ $.ajax({
 		}
 	}
 }); 
+function init() {
+	var msg = document.getElementById("msg");
+    mAccount = cookie.get("account");
+    if(mAccount && mAccount.length>0) {
+        msg.innerHTML = "<h1>" + mAccount + "</h1>";
+    } else {
+        msg.innerHTML = "<a href='login.html'>请登录</a>";
+    }
+}
 function getTab(id,mType){
-	$.ajax({
+	jq.ajax({
 		type: "POST",
 		url: "http://lovegood.zicp.vip/good/SelectCategory",
 		data: param={
 			tabId: id,
 			isTab: "0",
-			j:"0"
+			j:mJ,
+			account:mAccount
 		},
 		dataType:'json',    
 		success: function (entity) {
@@ -34,8 +48,9 @@ function getTab(id,mType){
 				var tab = document.getElementById("tabType"+id);
 				var tabHtml = "";
 				entity.data.forEach(function(value,index,array){
-					tabHtml += '<div><a href="#" onclick="getTabType('+value.id+','+mType+')">' + value.name + '</a></div>';
-					tabHtml += '<div id="tabTypeItem'+value.id+'"></div>';
+					tabHtml += '<div><a href="#">' + value.name + '</a></div>';
+					tabHtml += '<div class="tabTypeItem" id="tabTypeItem'+value.id+'"></div>';
+					getTabType(value.id,mType);
 				})
 				tab.innerHTML = tabHtml;
 			}
@@ -43,12 +58,13 @@ function getTab(id,mType){
 	});
 }
 function getTabType(id,mType){
-	$.ajax({
+	jq.ajax({
 		type: "POST",
 		url: "http://lovegood.zicp.vip/good/SelectType",
 		data: param={
 			id: id,
-			j:"0"
+			j:mJ,
+			account:mAccount
 		},
 		dataType:'json',    
 		success: function (entity) {
@@ -56,50 +72,69 @@ function getTabType(id,mType){
 				var tab = document.getElementById("tabTypeItem"+id);
 				var tabHtml = "";
 				entity.data.forEach(function(value,index,array){
-					tabHtml += '<div>&nbsp;&nbsp;&nbsp;<a href="#" onclick="getTabTypeItem('+value.id+','+mType+')">' + value.name + '</a></div>';
+					tabHtml += '<a href="#" onclick="selectListF('+value.id+','+mType+',1)">' + value.name + '</a>&nbsp;&nbsp;&nbsp';
 				})
 				tab.innerHTML = tabHtml;
 			}
 		}
 	});
 }
-function getTabTypeItem(id,mType){
+var mId;
+var mType;
+var mPage;
+function selectListF(id,type,page){
+	mId = id;
+	mType = type;
+	mPage = page;
+	selectList();
+}
+function selectList(){
 	var api = "";
 	if(13 == mType||9 == mType) api = "SelectVideoList";
 	if(14 == mType||10 == mType) api = "SelectPictureList";
 	if(15 == mType||11 == mType) api = "SelectNovelList";
 	if(12 == mType) api = "SelectVoiceList";
-	$.ajax({
+	jq.ajax({
 		type: "POST",
 		url: "http://lovegood.zicp.vip/good/"+api,
 		data: param={
-			id: id,
+			id: mId,
 			isfolder: "1",
-			page: "1",
-			j:"0"
+			page: mPage,
+			j:mJ,
+			account:mAccount
 		},
 		dataType:'json',    
 		success: function (entity) {
 			if(entity.code == 200){
 				var table = document.getElementById("content");
+				var pageDiv = document.getElementById("pageDiv");
 				table.innerHTML = "";
-				var h = 6;
-				var i = 0;
-				var j = 1;
-				var row = table.insertRow(i);
+				pageDiv.style.visibility ="visible";
+				var content = "";
 				entity.data.forEach(function(value,index,array){
-					if(j%h == 0){
-						i++;
-						j = 1;
-						row = table.insertRow(i);
-					}
-					var cell = row.insertCell(j-1);
-					var content = '<div><img class="image" src="'+value.thumbnail+'"></div>';
-					content += '<div>'+value.name+'</div>';
-					cell.innerHTML = content;
-					j++;
+					content += '<div class="contentCenter" onclick="selectDetails()"><div><img class="image" src="'+value.thumbnail+'"></div><span class="text">'+value.name+'</span></div>';
 				})
+				table.innerHTML = content;
 			}
 		}
 	});
+}
+function nextPage(){
+	mPage = mPage+1;
+	selectList();
+}
+function topPage(){
+	if(mPage>1){
+		mPage = mPage-1;
+		selectList();
+	}
+}
+function selectDetails(){
+	
+}
+
+
+function $(id) {
+    return document.getElementById(id);
 }
